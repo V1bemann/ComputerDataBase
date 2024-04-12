@@ -2,28 +2,23 @@
 
 
 void Sort::InsertionSortByPrice(QSqlTableModel* database_model) const {
-
     int rowCount = database_model->rowCount();
 
-    for (int i = 0; i < rowCount - 1; ++i) {
-        int minIndex = i;
-        int minPrice = database_model->data(database_model->index(i, database_model->fieldIndex("Ціна"))).toInt();
+    for (int i = 1; i < rowCount; ++i) {
+        QVariantList currentRowValues;
+        int currentPrice = database_model->data(database_model->index(i, database_model->fieldIndex("Ціна"))).toInt();
+        int j = i - 1;
 
-        for (int j = i + 1; j < rowCount; ++j) {
-            int currentPrice = database_model->data(database_model->index(j, database_model->fieldIndex("Ціна"))).toInt();
-
-            if (currentPrice < minPrice) {
-                minIndex = j;
-                minPrice = currentPrice;
-            }
-        }
-
-        if (minIndex != i) {
+        while (j >= 0 && database_model->data(database_model->index(j, database_model->fieldIndex("Ціна"))).toInt() > currentPrice) {
             for (int column = 0; column < database_model->columnCount(); ++column) {
-                QVariant temp = database_model->data(database_model->index(i, column));
-                database_model->setData(database_model->index(i, column), database_model->data(database_model->index(minIndex, column)));
-                database_model->setData(database_model->index(minIndex, column), temp);
+                currentRowValues.push_back(database_model->data(database_model->index(j, column)));
+                database_model->setData(database_model->index(j, column), database_model->data(database_model->index(j + 1, column)));
             }
+            for (int column = 0; column < database_model->columnCount(); ++column) {
+                database_model->setData(database_model->index(j + 1, column), currentRowValues[column]);
+            }
+            currentRowValues.clear();
+            --j;
         }
     }
 }
