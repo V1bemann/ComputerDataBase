@@ -26,8 +26,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         sort.cpp
         sort.h
-        themes.h
-        themes.cpp
     )
 else()
     if(ANDROID)

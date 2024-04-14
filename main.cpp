@@ -9,9 +9,6 @@ int main(int argc, char** argv) {
 
     Window w;
 
-    QMenu* themeMenu = Themes::createThemeMenu();
-    w.menuBar()->addMenu(themeMenu);
-
     w.setWindowTitle("Комп’ютерний магазин");
     w.show();
 
