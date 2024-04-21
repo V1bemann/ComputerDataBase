@@ -101,6 +101,7 @@
      <string>Функції бази данних</string>
     </property>
     <addaction name="Sortted"/>
+    <addaction name="Sortted_2"/>
     <addaction name="Average"/>
     <addaction name="Display"/>
    </widget>
@@ -111,6 +112,7 @@
     <property name="title">
      <string>Файл</string>
     </property>
+    <addaction name="Open"/>
     <addaction name="Exit"/>
    </widget>
    <widget class="QMenu" name="menu_3">
@@ -129,42 +131,11 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="Sortted">
    <property name="icon">
-    <iconset resource="res.qrc">
+    <iconset>
      <normaloff>:/image/resurces/menu/sort.png</normaloff>:/image/resurces/menu/sort.png</iconset>
    </property>
    <property name="text">
-    <string>Сортувати за ціною</string>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-  </action>
-  <action name="Average">
-   <property name="icon">
-    <iconset resource="res.qrc">
-     <normaloff>:/image/resurces/menu/average.png</normaloff>:/image/resurces/menu/average.png</iconset>
-   </property>
-   <property name="text">
-    <string>Середня вартість</string>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-  </action>
-  <action name="Display">
-   <property name="icon">
-    <iconset resource="res.qrc">
-     <normaloff>:/image/resurces/menu/info.png</normaloff>:/image/resurces/menu/info.png</iconset>
-   </property>
-   <property name="text">
-    <string>Інформація за прізвищем клієнта</string>
-   </property>
-   <property name="toolTip">
-    <string>Інформація за прізвищем клієнта</string>
+    <string>Сортувати за зростанням</string>
    </property>
    <property name="font">
     <font>
@@ -174,7 +145,7 @@
   </action>
   <action name="About">
    <property name="icon">
-    <iconset resource="res.qrc">
+    <iconset>
      <normaloff>:/image/resurces/menu/programmer.png</normaloff>:/image/resurces/menu/programmer.png</iconset>
    </property>
    <property name="text">
@@ -186,11 +157,47 @@
     </font>
    </property>
   </action>
-  <action name="Exit">
-   <property name="icon">
-    <iconset resource="res.qrc">
-     <normaloff>:/image/resurces/menu/exit.png</normaloff>:/image/resurces/menu/exit.png</iconset>
+  <action name="Sortted_2">
+   <property name="text">
+    <string>Сортувати за спаданням</string>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="Average">
+   <property name="text">
+    <string>Середня вартість</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="Display">
+   <property name="text">
+    <string>Інформація за прізвищем клієнта</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="Open">
+   <property name="text">
+    <string>Відкрити</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="Exit">
    <property name="text">
     <string>Вихід</string>
    </property>
@@ -201,8 +208,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
