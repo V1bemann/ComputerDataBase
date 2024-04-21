@@ -32,7 +32,7 @@ Window::Window(QWidget *parent)
                          "Тип_процессора TEXT, "
                          "Прізвище TEXT, "
                          "Телефон TEXT, "
-                         "Ціна INT);");
+                         "Ціна_грн INT);");
 
     database_model = new QSqlTableModel(this, database);
     database_model->setTable("ComputerShop");
@@ -48,7 +48,7 @@ Window::Window(QWidget *parent)
     ui->tableView->setColumnWidth(database_model->fieldIndex("Тип_процессора"), 210);
     ui->tableView->setColumnWidth(database_model->fieldIndex("Прізвище"), 200);
     ui->tableView->setColumnWidth(database_model->fieldIndex("Телефон"), 200);
-    ui->tableView->setColumnWidth(database_model->fieldIndex("Ціна"), 200);
+    ui->tableView->setColumnWidth(database_model->fieldIndex("Ціна_грн"), 200);
 
     connect(ui->buttonUPDATE, &QPushButton::clicked, this, &Window::on_buttonUPDATE_clicked);
 }
@@ -107,10 +107,10 @@ void Window::on_Sortted_triggered() {
     ui->tableView->setColumnWidth(database_model->fieldIndex("Тип_процессора"), 210);
     ui->tableView->setColumnWidth(database_model->fieldIndex("Прізвище"), 200);
     ui->tableView->setColumnWidth(database_model->fieldIndex("Телефон"), 200);
-    ui->tableView->setColumnWidth(database_model->fieldIndex("Ціна"), 200);
+    ui->tableView->setColumnWidth(database_model->fieldIndex("Ціна_грн"), 200);
 
     sort.InsertionSortByPrice(database_model);
-    ui->tableView->sortByColumn(database_model->fieldIndex("Ціна"), Qt::AscendingOrder);
+    ui->tableView->sortByColumn(database_model->fieldIndex("Ціна_грн"), Qt::AscendingOrder);
 
     ui->statusbar->showMessage("Сортування...", 2000);
 }
@@ -151,12 +151,12 @@ void Window::on_Display_triggered() {
                                 "Тип процесора: %2\n"
                                 "Прізвище: %3\n"
                                 "Телефон: %4\n"
-                                "Ціна: %5 грн\n")
+                                "Ціна_грн: %5 грн\n")
                                 .arg(query.value("Код_компьютера").toString())
                                 .arg(query.value("Тип_процессора").toString())
                                 .arg(query.value("Прізвище").toString())
                                 .arg(query.value("Телефон").toString())
-                                .arg(query.value("Ціна").toString());
+                                .arg(query.value("Ціна_грн").toString());
 
         QMessageBox::information(this, tr("Інформація про комп'ютер"), result);
     } else {
