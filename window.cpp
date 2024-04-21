@@ -8,7 +8,6 @@
 #include <QtSql>
 #include <QVBoxLayout>
 
-
 Window::Window(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Window)
@@ -24,8 +23,6 @@ Window::Window(QWidget *parent)
         qDebug("Not open database!");
     }
 
-
-    /* creating a database table */
     database_query = new QSqlQuery(database);
     database_query->exec("CREATE TABLE ComputerShop(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                          "Код_компьютера TEXT, "
@@ -39,11 +36,7 @@ Window::Window(QWidget *parent)
     database_model->select();
 
     ui->tableView->setModel(database_model);
-
-    /* hide the 'ID' column from the database */
     ui->tableView->hideColumn(database_model->fieldIndex("ID"));
-
-    /* changing the standard output sizes of table columns */
     ui->tableView->setColumnWidth(database_model->fieldIndex("Код_компьютера"), 210);
     ui->tableView->setColumnWidth(database_model->fieldIndex("Тип_процессора"), 210);
     ui->tableView->setColumnWidth(database_model->fieldIndex("Прізвище"), 200);
@@ -94,13 +87,10 @@ void Window::on_buttonUPDATE_clicked() {
     database_model->select();
     database_model->setSort(database_model->fieldIndex("ID"), Qt::AscendingOrder);
     database_model->select();
-
-    ui->statusbar->showMessage("Оновлення екрану...", 1000);
 }
 
 
 void Window::on_Sortted_triggered() {
-
     Sort sort;
 
     ui->tableView->setColumnWidth(database_model->fieldIndex("Код_компьютера"), 210);
@@ -109,26 +99,26 @@ void Window::on_Sortted_triggered() {
     ui->tableView->setColumnWidth(database_model->fieldIndex("Телефон"), 200);
     ui->tableView->setColumnWidth(database_model->fieldIndex("Ціна_грн"), 200);
 
-    sort.InsertionSortByPrice(database_model);
+    sort.selectionSort_increase(database_model); // sort increase
     ui->tableView->sortByColumn(database_model->fieldIndex("Ціна_грн"), Qt::AscendingOrder);
+}
 
-    ui->statusbar->showMessage("Сортування...", 2000);
+
+void Window::on_Sortted_2_triggered() {
+    Sort sort;
+
+    sort.selectionSort_descending(database_model); // sort descending
+    ui->tableView->sortByColumn(database_model->fieldIndex("Ціна_грн"), Qt::DescendingOrder);
 }
 
 
 void Window::on_Average_triggered() {
-
-    ui->statusbar->showMessage("Відображення середньої ціни комп`ютерів в магазині", 2000);
-
     Sort sort;
     sort.AveragePrice(*this);
 }
 
 
 void Window::on_Display_triggered() {
-
-    ui->statusbar->showMessage("Пошук...", 2000);
-
     bool ok;
     QString model = QInputDialog::getText(this, tr("Введіть прізвище клієнта")
                                               , tr("Прізвище:"), QLineEdit::Normal, ""
@@ -166,15 +156,24 @@ void Window::on_Display_triggered() {
 
 
 void Window::on_About_triggered() {
-    ui->statusbar->showMessage("Інформація...", 2000);
-
     QMessageBox::information(this, "Про розробників:",
                              "Розробник цього ПЗ - Санжура Артем,"
-                             "\nСтудент ВСП Павлоградський фаховий коледж НТУ ''ДП''\nГрупи KI-2-21");
+                             "\nСтудент 3 курсу ВСП Павлоградський фаховий коледж НТУ ''ДП''\nГрупи KI-2-21");
 }
 
 
 void Window::on_Exit_triggered() {
     QApplication::quit();
+}
+
+void Window::on_Open_triggered() {
+    Sort file_convert;
+
+    QString dbFile = "ComputerShop.db";
+    QString txtFile = "ComputerShop.txt";
+
+    file_convert.convert_txt(dbFile, txtFile);
+
+    file_convert.open_txt(txtFile);
 }
 
