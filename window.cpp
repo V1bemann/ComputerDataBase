@@ -17,9 +17,12 @@ Window::Window(QWidget *parent)
     database = QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName("./ComputerShop.db");
 
-    if (database.open()) {
+    if (database.open())
+    {
         qDebug("open database!");
-    } else {
+    }
+    else
+    {
         qDebug("Not open database!");
     }
 
@@ -47,22 +50,44 @@ Window::Window(QWidget *parent)
 }
 
 
-Window::~Window() {
+Window::~Window()
+{
     delete ui;
 }
 
 
-void Window::updateDatabase() {
+void Window::on_Exit_triggered()
+{
+    QApplication::quit();
+}
+
+void Window::on_Open_triggered()
+{
+    Sort file_convert;
+
+    QString dbFile = "ComputerShop.db";
+    QString txtFile = "ComputerShop.txt";
+
+    file_convert.convert_txt(dbFile, txtFile);
+
+    file_convert.open_txt(txtFile);
+}
+
+
+void Window::updateDatabase()
+{
     database_model->select();
 }
 
 
-void Window::on_buttonADD_clicked() {
+void Window::on_buttonADD_clicked()
+{
     database_model->insertRow(database_model->rowCount());
 }
 
 
-void Window::on_buttonDELETE_clicked() {
+void Window::on_buttonDELETE_clicked()
+{
 
     QMessageBox message(QMessageBox::Warning, "Попередження"
                         , "Ви дійсно хочете видалити рядок? Дія не оборотна!"
@@ -72,25 +97,36 @@ void Window::on_buttonDELETE_clicked() {
     message.setDefaultButton(QMessageBox::No);
 
     int answer = message.exec();
-    if (answer == QMessageBox::Yes) {
+    if (answer == QMessageBox::Yes)
+    {
         database_model->removeRow(row_database);
     }
 }
 
 
-void Window::on_tableView_clicked(const QModelIndex &index) {
+void Window::on_tableView_clicked(const QModelIndex &index)
+{
     row_database = index.row();
 }
 
 
-void Window::on_buttonUPDATE_clicked() {
+void Window::on_buttonUPDATE_clicked()
+{
     database_model->select();
     database_model->setSort(database_model->fieldIndex("ID"), Qt::AscendingOrder);
     database_model->select();
 }
 
 
-void Window::on_Sortted_triggered() {
+void Window::on_Average_triggered()
+{
+    Sort sort;
+    sort.AveragePrice(*this);
+}
+
+
+void Window::on_Sortted_triggered()
+{
     Sort sort;
 
     ui->tableView->setColumnWidth(database_model->fieldIndex("Код_компьютера"), 210);
@@ -104,7 +140,8 @@ void Window::on_Sortted_triggered() {
 }
 
 
-void Window::on_Sortted_2_triggered() {
+void Window::on_Sortted_2_triggered()
+{
     Sort sort;
 
     sort.selectionSort_descending(database_model); // sort descending
@@ -112,30 +149,29 @@ void Window::on_Sortted_2_triggered() {
 }
 
 
-void Window::on_Average_triggered() {
-    Sort sort;
-    sort.AveragePrice(*this);
-}
-
-
-void Window::on_Display_triggered() {
+void Window::on_Display_triggered()
+{
     bool ok;
     QString model = QInputDialog::getText(this, tr("Введіть прізвище клієнта")
                                               , tr("Прізвище:"), QLineEdit::Normal, ""
                                               , &ok);
-    if (!ok || model.isEmpty()) {
+    if (!ok || model.isEmpty())
+    {
         return;
     }
 
     QSqlQuery query;
     query.prepare("SELECT * FROM ComputerShop WHERE Прізвище = ?");
     query.addBindValue(model);
-    if (!query.exec()) {
+
+    if (!query.exec())
+    {
         qDebug() << "Error executing query:" << query.lastError().text();
         return;
     }
 
-    if (query.next()) {
+    if (query.next())
+    {
         QString result = QString("Дані за прізвищем:\n\n"
                                 "Код комп'ютера: %1\n"
                                 "Тип процесора: %2\n"
@@ -149,31 +185,17 @@ void Window::on_Display_triggered() {
                                 .arg(query.value("Ціна_грн").toString());
 
         QMessageBox::information(this, tr("Інформація про комп'ютер"), result);
-    } else {
+    }
+    else
+    {
         QMessageBox::information(this, tr("Інформація про комп'ютер"), tr("Клієнта з таким прізвищем не знайдено."));
     }
 }
 
 
-void Window::on_About_triggered() {
+void Window::on_About_triggered()
+{
     QMessageBox::information(this, "Про розробників:",
                              "Розробник цього ПЗ - Санжура Артем,"
                              "\nСтудент 3 курсу ВСП Павлоградський фаховий коледж НТУ ''ДП''\nГрупи KI-2-21");
 }
-
-
-void Window::on_Exit_triggered() {
-    QApplication::quit();
-}
-
-void Window::on_Open_triggered() {
-    Sort file_convert;
-
-    QString dbFile = "ComputerShop.db";
-    QString txtFile = "ComputerShop.txt";
-
-    file_convert.convert_txt(dbFile, txtFile);
-
-    file_convert.open_txt(txtFile);
-}
-

@@ -4,15 +4,14 @@
 #pragma once
 
 #include <QMainWindow>
-#include <QDebug>
-#include <QtSql/QSqlDatabase>
 #include <QSqlQuery>
-#include <QSqlTableModel>
-#include <QMessageBox>
-
 #include <QSqlRecord>
 #include <QFile>
 #include <QTextStream>
+#include <QSqlTableModel>
+#include <QDebug>
+#include <QtSql/QSqlDatabase>
+#include <QMessageBox>
 
 
 QT_BEGIN_NAMESPACE
@@ -20,7 +19,8 @@ namespace Ui { class Window; }
 QT_END_NAMESPACE
 
 
-class Window : public QMainWindow {
+class Window : public QMainWindow
+{
     Q_OBJECT
 
 
