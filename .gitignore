@@ -4,3 +4,4 @@
 *.pro.user.*
 *.qmake.stash
 CMakeLists.txt.user
+*build
